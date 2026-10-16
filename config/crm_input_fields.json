@@ -1,0 +1,15 @@
+[
+  {"dt":"CRM Lead","fieldname":"custom_organization_type","label":"Organization Type (LCS)","fieldtype":"Select","options":"\nSports infra contractor\nCourt builder\nSchool\nUniversity\nAcademy\nMunicipal\nGovernment sports authority\nReal estate developer\nGated community\nSports club\nArchitect\nLandscape consultant\nHotel\nResort\nCorporate campus\nHomeowner\nDealer\nDistributor\nStudent\nJob seeker\nCompetitor\nVendor"},
+  {"dt":"CRM Lead","fieldname":"custom_contact_role","label":"Contact Role (LCS)","fieldtype":"Select","options":"\nDecision maker\nOwner\nProcurement\nProject head\nPrincipal\nInfluencer\nArchitect\nCoach\nFacility manager\nOther"},
+  {"dt":"CRM Lead","fieldname":"custom_court_count","label":"Number of Courts","fieldtype":"Int"},
+  {"dt":"CRM Lead","fieldname":"custom_area_m2","label":"Project Area (m²)","fieldtype":"Float"},
+  {"dt":"CRM Lead","fieldname":"custom_in_service_region","label":"Service Region (LCS)","fieldtype":"Select","options":"\nUnknown\nInside\nOutside"},
+  {"dt":"CRM Lead","fieldname":"custom_project_type","label":"Project Type (LCS)","fieldtype":"Select","options":"\nNew build\nResurfacing\nRepair"},
+  {"dt":"CRM Lead","fieldname":"custom_setting","label":"Court Setting (LCS)","fieldtype":"Select","options":"\nOutdoor\nCovered\nIndoor competition"},
+  {"dt":"CRM Lead","fieldname":"custom_channel","label":"Acquisition Channel (LCS)","fieldtype":"Select","options":"\npaid_search\norganic_search\nreferral\nword_of_mouth\ndealer_referral\ndirect\nlinkedin\nevent\ntrade_show\nmarketplace\nemail\ninstagram\nfacebook\nyoutube\nunknown"},
+  {"dt":"CRM Lead","fieldname":"custom_search_query","label":"Search Query (LCS)","fieldtype":"Data"},
+  {"dt":"CRM Lead","fieldname":"custom_site_visit_requested","label":"Site Visit Requested","fieldtype":"Check"},
+  {"dt":"CRM Lead","fieldname":"custom_rfq_shared","label":"RFQ / Tender Shared","fieldtype":"Check"},
+  {"dt":"CRM Lead","fieldname":"custom_quote_requested","label":"Quote Requested","fieldtype":"Check"},
+  {"dt":"CRM Lead","fieldname":"custom_lcs_visitor_id","label":"Website Visitor ID (LCS)","fieldtype":"Data"}
+]

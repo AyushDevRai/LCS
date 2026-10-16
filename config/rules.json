@@ -1,0 +1,20 @@
+{
+  "fit": {
+    "cap": 50, "organization": { "T1": 20, "T2": 12, "T3": 5, "P": 0, "X": -50, "unknown": 0 },
+    "roles": { "decision_maker": 10, "influencer": 6, "unknown": 0 },
+    "largeProject": { "minCourts": 3, "minAreaM2": 2000, "points": 10 },
+    "smallProject": { "minCourts": 1, "points": 5 },
+    "insideRegion": 5, "outsideRegion": -15,
+    "projectTypes": { "new_build": 5, "resurfacing": 3, "repair": 3 },
+    "settings": { "indoor_competition": -5, "outdoor": 0, "covered": 0 }
+  },
+  "intent": {
+    "cap": 50,
+    "pages": { "quote": 25, "site_visit": 25, "contact": 25, "whatsapp": 25, "specs": 10, "systems": 10, "case_study": 10, "pricing": 10, "blog": 3, "dimensions": 3, "about": 0, "investor": 0, "noise": 0, "careers": 0 },
+    "behaviors": { "spec_download": 10, "calculator_used": 12, "case_studies": 8, "return_visit": 8, "options_viewed": 5, "video_watched": 4, "rfq_shared": 0, "careers_viewed": -10 },
+    "minCaseStudies": 2, "minSessions": 2, "returnWindowDays": 7,
+    "decayFactor": 0.75, "decayPeriodDays": 30
+  },
+  "bands": { "fitA": 35, "fitB": 25, "intent1": 35, "intent2": 20 },
+  "fastTracks": { "siteVisit": true, "rfq": true, "tier1Quote": true }
+}

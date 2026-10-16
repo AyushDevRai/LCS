@@ -1,0 +1,11 @@
+{
+  "T1": ["sports infra contractor", "court builder", "school", "university", "academy", "municipal", "government sports authority", "real estate developer", "gated community", "sports club"],
+  "T2": ["architect", "landscape consultant", "hotel", "resort", "corporate campus"],
+  "T3": ["homeowner"],
+  "P": ["dealer", "distributor"],
+  "X": ["student", "job seeker", "competitor", "vendor"],
+  "roles": {
+    "decision_maker": ["decision maker", "owner", "procurement", "project head", "principal"],
+    "influencer": ["influencer", "architect", "coach", "facility manager"]
+  }
+}

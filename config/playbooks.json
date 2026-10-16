@@ -1,0 +1,13 @@
+{
+  "A1": { "label": "Hot MQL", "isMql": true, "action": "Hot MQL · call within 4 hrs; 6-touch cadence", "slaHours": 4 },
+  "A2": { "label": "MQL", "isMql": true, "action": "Call within 24 hours", "slaHours": 24 },
+  "A3": { "label": "Targeted Nurture", "isMql": false, "action": "Email/WhatsApp automated nurture", "slaHours": null },
+  "B1": { "label": "MQL", "isMql": true, "action": "Call within 24 hours", "slaHours": 24 },
+  "B2": { "label": "MQL (Qualify)", "isMql": true, "action": "Inside sales qualifies within 48 hours", "slaHours": 48 },
+  "B3": { "label": "Nurture", "isMql": false, "action": "Marketing nurture", "slaHours": null },
+  "C1": { "label": "Dealer / Self-Serve", "isMql": false, "action": "Pass to dealer within 24 hrs", "slaHours": 24 },
+  "C2": { "label": "Nurture", "isMql": false, "action": "Marketing nurture", "slaHours": null },
+  "C3": { "label": "Disqualified / Ignore", "isMql": false, "action": "No action", "slaHours": null },
+  "Partner": { "label": "Partner Track", "isMql": false, "action": "Route to channel team", "slaHours": null },
+  "Disqualified": { "label": "Disqualified", "isMql": false, "action": "No action", "slaHours": null }
+}

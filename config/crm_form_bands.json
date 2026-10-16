@@ -1,0 +1,4 @@
+[
+  {"target":"courts","field":"custom_lcs_court_count_band","label":"Number of Courts","options":{"Not sure":null,"0 courts / area-based project":0,"1 court":1,"2 courts":2,"3 or more courts":3}},
+  {"target":"areaM2","field":"custom_lcs_area_band","label":"Project Area","options":{"Not sure":null,"Under 2000 m²":0,"2000 m² or more":2000}}
+]
