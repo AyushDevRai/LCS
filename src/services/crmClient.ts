@@ -2,15 +2,16 @@ import type { Classification, Lead } from '../types.js';
 import { leadSchema } from '../validation.js';
 import { applyFormBands } from './formBands.js';
 export type CrmRecord = Record<string, unknown> & { name: string };
-export interface CrmOptions { url: string; key: string; secret: string; attempts: number; fieldMap: Record<string,string> }
+export interface CrmOptions { url: string; key: string; secret: string; attempts: number; fieldMap: Record<string,string>; allowHttp?: boolean }
 export function crmFields(result: Classification) {
-  return {custom_lead_tier: result.tier, custom_fit_score: result.fitScore, custom_intent_score: result.intentScore, custom_is_mql: result.isMql ? 1 : 0, custom_playbook: result.playbook, custom_classification_notes: result.notes.join('\n')};
+  return {custom_lead_tier: result.tier, custom_fit_score: result.fitScore, custom_intent_score: result.intentScore, custom_is_mql: result.isMql ? 1 : 0, custom_playbook: result.playbook, custom_sla_hours: result.slaHours ?? 0, custom_classification_notes: result.notes.join('\n')};
 }
 export class CrmClient {
   constructor(private options: CrmOptions) {
     const url = new URL(options.url);
     if (!['http:','https:'].includes(url.protocol) || url.username || url.password) throw new Error('CRM_URL must be an HTTP(S) URL without credentials');
-    if (url.protocol !== 'https:' && !['localhost','127.0.0.1','[::1]'].includes(url.hostname)) throw new Error('Use HTTPS for non-local CRM connections');
+    const allowHttp = options.allowHttp ?? (process.env.CRM_ALLOW_HTTP === 'true' || process.env.ALLOW_INSECURE_HTTP === 'true');
+    if (!allowHttp && url.protocol !== 'https:' && !['localhost','127.0.0.1','[::1]'].includes(url.hostname)) throw new Error('Use HTTPS for non-local CRM connections (or set CRM_ALLOW_HTTP=true to allow insecure HTTP)');
   }
   private async request(path: string, init: RequestInit = {}): Promise<unknown> {
     for (let attempt = 0; attempt < this.options.attempts; attempt++) {

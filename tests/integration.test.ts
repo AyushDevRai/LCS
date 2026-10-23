@@ -142,3 +142,7 @@ test('sales form dropdown values produce exact Fit scores with numeric-field com
   assert.equal(score({custom_lcs_court_count_band:'2 courts',region:'Outside',setting:'Indoor competition'}),20);
   assert.throws(()=>client.mapLead({...base,custom_lcs_court_count_band:'anything'}),/Invalid CRM project size band/);
 });
+test('CrmClient supports allowHttp for non-local insecure connections', () => {
+  assert.throws(() => new CrmClient({url:'http://crm.example.com',key:'k',secret:'s',attempts:1,fieldMap:{},allowHttp:false}), /Use HTTPS for non-local CRM connections/);
+  assert.doesNotThrow(() => new CrmClient({url:'http://crm.example.com',key:'k',secret:'s',attempts:1,fieldMap:{},allowHttp:true}));
+});

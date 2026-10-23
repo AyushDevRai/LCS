@@ -12,6 +12,7 @@
     "crm:setup": "npm run build && node --env-file-if-exists=.env dist/crmSetup.js",
     "crm:setup-sales-form": "npm run build && node --env-file-if-exists=.env dist/salesFormSetup.js",
     "test": "tsx --test tests/*.test.ts",
+    "test:live-crm": "tsx --env-file-if-exists=.env scripts/testCrmSync.ts",
     "check": "tsc --noEmit"
   },
   "dependencies": { "@fastify/cors": "^11.0.0", "@fastify/rate-limit": "^10.0.0", "dotenv": "^17.0.0", "fastify": "^5.0.0", "zod": "^4.0.0" },

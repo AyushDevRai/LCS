@@ -53,7 +53,7 @@ for (const layout of layouts.filter(l=>['Data Fields','Side Panel'].includes(l.t
   const sections = content.some(s=>s.sections) ? content.flatMap(s=>s.sections ?? []) : content;
   const section = sections.find(s=>s.name === 'lcs_project');
   if (!section) continue;
-  for (const column of section.columns ?? []) column.fields = column.fields.map(f=>f === 'custom_court_count' ? 'custom_lcs_court_count_band' : f === 'custom_area_m2' ? 'custom_lcs_area_band' : f);
+  for (const column of section.columns ?? []) column.fields = [...new Set(column.fields.map(f=>f === 'custom_court_count' ? 'custom_lcs_court_count_band' : f === 'custom_area_m2' ? 'custom_lcs_area_band' : f))];
   await request(`/api/resource/CRM%20Fields%20Layout/${encodeURIComponent(layout.name)}`,'PUT',{layout:JSON.stringify(content)},true);
 }
 const saved = await request<Form>('/api/method/crm.api.form.get_form_config?'+new URLSearchParams({name}));

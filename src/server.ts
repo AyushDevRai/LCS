@@ -28,7 +28,8 @@ export async function createApp(env: NodeJS.ProcessEnv = process.env) {
     if (!Number.isInteger(interval) || interval < 1000 || !Number.isInteger(attempts) || attempts < 1 || attempts > 10) throw new Error('Invalid CRM polling interval or retry attempts');
     const fieldMap: unknown = JSON.parse(env.CRM_FIELD_MAP ?? '{}');
     if (!fieldMap || typeof fieldMap !== 'object' || Array.isArray(fieldMap) || Object.values(fieldMap).some(v => typeof v !== 'string')) throw new Error('CRM_FIELD_MAP must be a JSON string-to-string map');
-    worker = new SyncWorker(new CrmClient({url:env.CRM_URL,key:env.CRM_API_KEY,secret:env.CRM_API_SECRET,attempts,fieldMap:fieldMap as Record<string,string>}),store,config,interval,message => app.log.warn(message));
+    const allowHttp = env.CRM_ALLOW_HTTP === 'true' || env.ALLOW_INSECURE_HTTP === 'true';
+    worker = new SyncWorker(new CrmClient({url:env.CRM_URL,key:env.CRM_API_KEY,secret:env.CRM_API_SECRET,attempts,fieldMap:fieldMap as Record<string,string>,allowHttp}),store,config,interval,message => app.log.warn(message));
   }
   const token = Buffer.from(`Bearer ${env.API_TOKEN}`);
   const auth: import('fastify').preHandlerHookHandler = async (request,reply) => {

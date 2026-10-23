@@ -1,8 +1,9 @@
 [
   {"dt":"CRM Lead","fieldname":"custom_lead_tier","label":"Lead Tier","fieldtype":"Select","options":"\nA1\nA2\nA3\nB1\nB2\nB3\nC1\nC2\nC3\nPartner\nDisqualified","read_only":1,"in_list_view":1},
   {"dt":"CRM Lead","fieldname":"custom_fit_score","label":"Fit Score","fieldtype":"Int","read_only":1},
-  {"dt":"CRM Lead","fieldname":"custom_intent_score","label":"Intent Score","fieldtype":"Int","read_only":1},
+  {"dt":"CRM Lead","fieldname":"custom_intent_score","label":"Intent Score","fieldtype":"Int","read_only":0},
   {"dt":"CRM Lead","fieldname":"custom_is_mql","label":"Is MQL","fieldtype":"Check","read_only":1},
   {"dt":"CRM Lead","fieldname":"custom_playbook","label":"Playbook","fieldtype":"Data","read_only":1},
+  {"dt":"CRM Lead","fieldname":"custom_sla_hours","label":"SLA Hours","fieldtype":"Int","read_only":1},
   {"dt":"CRM Lead","fieldname":"custom_classification_notes","label":"Classification Notes","fieldtype":"Small Text","read_only":1}
 ]
