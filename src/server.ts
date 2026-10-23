@@ -58,5 +58,8 @@ export async function createApp(env: NodeJS.ProcessEnv = process.env) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const app = await createApp();
   for (const signal of ['SIGTERM','SIGINT'] as const) process.once(signal,() => {void app.close();});
-  await app.listen({port:Number(process.env.PORT ?? 4000),host:process.env.HOST ?? '0.0.0.0'});
+  const port = Number(process.env.PORT ?? 4000);
+  const host = process.env.RENDER ? '0.0.0.0' : (process.env.HOST && process.env.HOST !== '127.0.0.1' ? process.env.HOST : (process.env.NODE_ENV === 'production' ? '0.0.0.0' : (process.env.HOST ?? '0.0.0.0')));
+  const address = await app.listen({port, host});
+  console.log(`LCS server listening on ${address}`);
 }
