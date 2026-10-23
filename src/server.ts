@@ -38,6 +38,7 @@ export async function createApp(env: NodeJS.ProcessEnv = process.env) {
   };
   telemetryRoutes(app,store,origins);
   webhookRoutes(app,store,config,auth,worker);
+  app.get('/',async () => ({status:'ok',service:'lead-classification-system'}));
   app.get('/health',async () => ({status:'ok',crmConfigured:!!worker}));
   app.get('/api/status',{preHandler:auth},async () => ({pendingJobs:store.pendingJobs(),lastSync:worker?.lastSuccess ?? null,lastError:worker?.lastError ?? null}));
   const tracker = readFileSync(new URL('../tracker/lcs-tracker.js',import.meta.url));
@@ -57,5 +58,5 @@ export async function createApp(env: NodeJS.ProcessEnv = process.env) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const app = await createApp();
   for (const signal of ['SIGTERM','SIGINT'] as const) process.once(signal,() => {void app.close();});
-  await app.listen({port:Number(process.env.PORT ?? 4000),host:process.env.HOST ?? '127.0.0.1'});
+  await app.listen({port:Number(process.env.PORT ?? 4000),host:process.env.HOST ?? '0.0.0.0'});
 }
