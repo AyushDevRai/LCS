@@ -39,7 +39,7 @@ export async function createApp(env: NodeJS.ProcessEnv = process.env) {
   telemetryRoutes(app,store,origins);
   webhookRoutes(app,store,config,auth,worker);
   app.get('/',async () => ({status:'ok',service:'lead-classification-system'}));
-  app.get('/health',async () => ({status:'ok',crmConfigured:!!worker}));
+  app.get('/health',async () => ({status:'ok',crmConfigured:!!worker,crmUrl:env.CRM_URL ?? null,nodeVersion:process.version}));
   app.get('/api/status',{preHandler:auth},async () => ({pendingJobs:store.pendingJobs(),lastSync:worker?.lastSuccess ?? null,lastError:worker?.lastError ?? null}));
   app.post('/api/sync-now',{preHandler:auth},async (request,reply) => {
     if (!worker) return reply.code(503).send({error:'CRM not configured'});

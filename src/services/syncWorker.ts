@@ -47,8 +47,11 @@ export class SyncWorker {
       if (!this.store.pendingJobs()) this.lastError = null;
     } catch (error) {
       const err = error as any;
-      const cause = err?.cause?.code || err?.cause?.message || (err?.cause ? String(err.cause) : '');
-      this.lastError = `CRM polling failed: ${err?.message || String(error)}${cause ? ' (' + cause + ')' : ''}`;
+      let cause = err?.cause?.code || err?.cause?.message || '';
+      if (err?.cause?.errors && Array.isArray(err.cause.errors)) {
+        cause = err.cause.errors.map((e: any) => `${e.code || ''} ${e.message || ''} ${e.address || ''}:${e.port || ''}`).join('; ');
+      }
+      this.lastError = `CRM polling failed: ${err?.message || String(error)}${cause ? ' [' + cause + ']' : ''}`;
       this.log(this.lastError);
     }
   }
