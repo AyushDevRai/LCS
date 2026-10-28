@@ -48,6 +48,25 @@ export async function createApp(env: NodeJS.ProcessEnv = process.env) {
     await worker.tick();
     return reply.send({lastSuccess:worker.lastSuccess,lastError:worker.lastError,pendingJobs:store.pendingJobs()});
   });
+  app.get('/api/debug-network',{preHandler:auth},async () => {
+    let myIp = 'unknown';
+    try {
+      const r = await fetch('https://api.ipify.org?format=json',{signal:AbortSignal.timeout(5000)});
+      myIp = (await r.json() as any).ip;
+    } catch (e: any) { myIp = e.message; }
+    let dnsResult: any = null;
+    try { dnsResult = await dns.promises.lookup('srv1484793.hstgr.cloud',{all:true}); } catch (e: any) { dnsResult = e.message; }
+    let tcpTest: any = null;
+    try {
+      const net = await import('node:net');
+      tcpTest = await new Promise((resolve) => {
+        const s = net.connect(443, '187.127.128.195', () => { s.end(); resolve('CONNECTED_SUCCESS'); });
+        s.setTimeout(5000, () => { s.destroy(); resolve('TCP_TIMEOUT'); });
+        s.on('error', (err) => resolve(`TCP_ERROR: ${err.message}`));
+      });
+    } catch (e: any) { tcpTest = e.message; }
+    return { myIp, dnsResult, tcpTest, timestamp: new Date().toISOString() };
+  });
   const tracker = readFileSync(new URL('../tracker/lcs-tracker.js',import.meta.url));
   const compressedTracker = gzipSync(tracker);
   app.get('/tracker/lcs-tracker.js',async (request,reply) => {
