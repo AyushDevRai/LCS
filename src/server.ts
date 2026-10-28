@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import dns from 'node:dns';
+dns.setDefaultResultOrder('ipv4first');
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import rateLimit from '@fastify/rate-limit';
