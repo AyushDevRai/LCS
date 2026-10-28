@@ -46,8 +46,9 @@ export class SyncWorker {
       this.lastSuccess = new Date().toISOString();
       if (!this.store.pendingJobs()) this.lastError = null;
     } catch (error) {
-      const msg = error instanceof Error ? error.message : String(error);
-      this.lastError = `CRM polling failed: ${msg}`;
+      const err = error as any;
+      const cause = err?.cause?.code || err?.cause?.message || (err?.cause ? String(err.cause) : '');
+      this.lastError = `CRM polling failed: ${err?.message || String(error)}${cause ? ' (' + cause + ')' : ''}`;
       this.log(this.lastError);
     }
   }
