@@ -8,7 +8,10 @@ export function crmFields(result: Classification) {
 }
 export class CrmClient {
   constructor(private options: CrmOptions) {
-    const url = new URL(options.url);
+    this.options.url = (options.url ?? '').trim().replace(/^["']|["']$/g, '');
+    this.options.key = (options.key ?? '').trim().replace(/^["']|["']$/g, '');
+    this.options.secret = (options.secret ?? '').trim().replace(/^["']|["']$/g, '');
+    const url = new URL(this.options.url);
     if (!['http:','https:'].includes(url.protocol) || url.username || url.password) throw new Error('CRM_URL must be an HTTP(S) URL without credentials');
     const allowHttp = options.allowHttp ?? (process.env.CRM_ALLOW_HTTP === 'true' || process.env.ALLOW_INSECURE_HTTP === 'true');
     if (!allowHttp && url.protocol !== 'https:' && !['localhost','127.0.0.1','[::1]'].includes(url.hostname)) throw new Error('Use HTTPS for non-local CRM connections (or set CRM_ALLOW_HTTP=true to allow insecure HTTP)');

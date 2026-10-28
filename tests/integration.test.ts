@@ -30,9 +30,12 @@ test('SQLite identity normalization, multi-visitor match, deduplication and rest
   } finally {store.close();rmSync(directory,{recursive:true,force:true});}
 });
 test('HTTP endpoints enforce auth, origin, payload limits and score linked telemetry',async () => {
-  const token = 'a'.repeat(32), app = await createApp({API_TOKEN:token,DATABASE_PATH:':memory:',ALLOWED_ORIGINS:'https://example.com'});
+  const token = 'a'.repeat(32), app = await createApp({API_TOKEN:token,DATABASE_PATH:':memory:',ALLOWED_ORIGINS:'https://example.com/'});
   try {
     assert.equal((await app.inject({url:'/health'})).statusCode,200);
+    const preflight = await app.inject({method:'OPTIONS',url:'/api/track',headers:{origin:'https://example.com','access-control-request-method':'POST'}});
+    assert.equal(preflight.statusCode,204);
+    assert.equal(preflight.headers['access-control-allow-origin'],'https://example.com');
     assert.equal((await app.inject({method:'POST',url:'/api/score',payload:{}})).statusCode,401);
     const event = {...telemetry(),email:'lead@example.com'};
     assert.equal((await app.inject({method:'POST',url:'/api/track',payload:event,headers:{origin:'https://evil.example'}})).statusCode,403);

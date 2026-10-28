@@ -45,7 +45,11 @@ export class SyncWorker {
       }
       this.lastSuccess = new Date().toISOString();
       if (!this.store.pendingJobs()) this.lastError = null;
-    } catch { this.lastError = 'CRM polling failed'; this.log(this.lastError); }
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.lastError = `CRM polling failed: ${msg}`;
+      this.log(this.lastError);
+    }
   }
   start() {
     const loop = async () => { await this.tick(); if (!this.stopping) this.timer = setTimeout(loop,this.interval); };

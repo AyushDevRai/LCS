@@ -16,7 +16,7 @@ export async function createApp(env: NodeJS.ProcessEnv = process.env) {
   const config = loadConfig();
   if (!env.API_TOKEN || env.API_TOKEN.length < 24) throw new Error('Set API_TOKEN to at least 24 characters (npm run setup generates one)');
   const app = Fastify({logger:{redact:['req.headers.authorization','req.body']},bodyLimit:16384});
-  const origins = (env.ALLOWED_ORIGINS ?? 'http://localhost:3000').split(',').map(v => v.trim()).filter(Boolean);
+  const origins = (env.ALLOWED_ORIGINS ?? 'http://localhost:3000').split(',').map(v => v.trim().replace(/\/+$/, '')).filter(Boolean);
   if (origins.includes('*')) throw new Error('ALLOWED_ORIGINS must contain exact origins');
   await app.register(cors,{origin:origins, methods:['POST','GET']});
   await app.register(rateLimit,{max:120,timeWindow:'1 minute'});
@@ -41,6 +41,11 @@ export async function createApp(env: NodeJS.ProcessEnv = process.env) {
   app.get('/',async () => ({status:'ok',service:'lead-classification-system'}));
   app.get('/health',async () => ({status:'ok',crmConfigured:!!worker}));
   app.get('/api/status',{preHandler:auth},async () => ({pendingJobs:store.pendingJobs(),lastSync:worker?.lastSuccess ?? null,lastError:worker?.lastError ?? null}));
+  app.post('/api/sync-now',{preHandler:auth},async (request,reply) => {
+    if (!worker) return reply.code(503).send({error:'CRM not configured'});
+    await worker.tick();
+    return reply.send({lastSuccess:worker.lastSuccess,lastError:worker.lastError,pendingJobs:store.pendingJobs()});
+  });
   const tracker = readFileSync(new URL('../tracker/lcs-tracker.js',import.meta.url));
   const compressedTracker = gzipSync(tracker);
   app.get('/tracker/lcs-tracker.js',async (request,reply) => {
